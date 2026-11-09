@@ -1,15 +1,50 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Search from "@/components/Search";
+import PwaRegister from "@/components/PwaRegister";
 import ThemeToggle, { themeInitScript } from "@/components/ThemeToggle";
 import { getSearchIndex, getSections } from "@/lib/content";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "React Interview Handbook", template: "%s · React Interview Handbook" },
-  description:
-    "React interview questions with answers, section by section: fundamentals, hooks, internals, performance, security and real-world scenarios.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "React interview questions",
+    "React.js interview",
+    "frontend interview",
+    "React hooks",
+    "React Fiber",
+    "React performance",
+    "Redux Toolkit",
+    "React scenario-based questions",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    locale: "en_US",
+  },
+  twitter: { card: "summary_large_image", title: SITE_NAME, description: SITE_DESCRIPTION },
+  robots: { index: true, follow: true },
+  appleWebApp: { capable: true, title: "React Handbook", statusBarStyle: "black-translucent" },
+  formatDetection: { telephone: false },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1016" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <label htmlFor="nav-toggle" className="scrim" aria-hidden />
           <main className="main">{children}</main>
         </div>
+        <PwaRegister />
       </body>
     </html>
   );

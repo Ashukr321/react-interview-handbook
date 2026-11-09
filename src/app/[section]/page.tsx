@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Markdown from "@/components/Markdown";
 import { getSection, getSections } from "@/lib/content";
+import { OG_IMAGES } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -11,7 +12,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ section: string }> }) {
   const s = getSection((await params).section);
-  return s ? { title: s.title, description: s.description } : {};
+  if (!s) return {};
+  const url = `/${s.slug}`;
+  return {
+    title: `${s.title} Interview Questions`,
+    description: s.description,
+    alternates: { canonical: url },
+    openGraph: { type: "website", title: s.title, description: s.description, url, images: OG_IMAGES },
+  };
 }
 
 export default async function SectionPage({ params }: { params: Promise<{ section: string }> }) {

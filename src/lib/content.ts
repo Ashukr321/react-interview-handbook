@@ -9,6 +9,7 @@ export type TopicMeta = {
   slug: string;
   num: string;
   title: string;
+  summary: string;
   difficulty?: "easy" | "medium" | "hard";
   tags: string[];
   askedAs: string[];
@@ -54,11 +55,12 @@ export function getSections(): Section[] {
       .sort()
       .map((file) => {
         const topicSlug = file.slice(0, -3);
-        const fm = matter(fs.readFileSync(path.join(dir, file), "utf8")).data;
+        const { data: fm, content: body } = matter(fs.readFileSync(path.join(dir, file), "utf8"));
         return {
           slug: topicSlug,
           num: numOf(topicSlug),
           title: String(fm.title ?? topicSlug),
+          summary: summarize(body),
           difficulty: fm.difficulty,
           tags: Array.isArray(fm.tags) ? fm.tags.map(String) : [],
           askedAs: Array.isArray(fm.asked_as) ? fm.asked_as.map(String) : [],
@@ -103,6 +105,22 @@ export function getTopic(sectionSlug: string, topicSlug: string) {
     prev: flat[pos - 1] ?? null,
     next: flat[pos + 1] ?? null,
   };
+}
+
+/** First paragraph of the body as plain text, cut to ~160 chars for meta descriptions. */
+export function summarize(md: string, max = 160) {
+  const para =
+    md
+      .replace(/```[\s\S]*?```/g, "")
+      .split(/\r?\n\s*\r?\n/)
+      .map((p) => p.trim())
+      .find((p) => p && !p.startsWith("#") && !p.startsWith("|") && !p.startsWith(">")) ?? "";
+  const text = para
+    .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+    .replace(/[*_`]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length <= max ? text : `${text.slice(0, text.lastIndexOf(" ", max - 1))}…`;
 }
 
 /** Same ids rehype-slug produces (both use github-slugger), skipping fenced code. */

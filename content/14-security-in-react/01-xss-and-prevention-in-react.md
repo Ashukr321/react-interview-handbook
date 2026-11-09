@@ -24,7 +24,7 @@ Think of React's escaping as a mail room that opens every letter and reads it ou
 
 - Text children and attribute values in JSX are escaped.
 - React refuses to render plain objects as elements, which blocks some JSON-injection tricks.
-- React warns about (and newer versions block) `javascript:` URLs in `href`/`src`, but do not rely on that: validate URLs yourself.
+- React 16.9+ warns about `javascript:` URLs in `href`/`src`, and React 19 blocks them (it swaps in a URL that throws). Don't rely on that alone: validate URLs yourself (allow only `http:`, `https:`, `mailto:`).
 
 ### What React does NOT protect
 

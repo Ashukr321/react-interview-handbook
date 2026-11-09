@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSections } from "@/lib/content";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, jsonLd } from "@/lib/site";
 
 export default function Home() {
   const sections = getSections();
@@ -8,6 +9,17 @@ export default function Home() {
 
   return (
     <article className="page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE_NAME,
+          description: SITE_DESCRIPTION,
+          url: SITE_URL,
+          inLanguage: "en",
+        })}
+      />
       <details className="otp">
         <summary>On this page</summary>
         <ul>

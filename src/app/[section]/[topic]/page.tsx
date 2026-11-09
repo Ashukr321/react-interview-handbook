@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Markdown from "@/components/Markdown";
 import { getSections, getTopic } from "@/lib/content";
+import { OG_IMAGES, SITE_NAME, SITE_URL, jsonLd } from "@/lib/site";
 
 type Params = Promise<{ section: string; topic: string }>;
 
@@ -14,7 +15,17 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }) {
   const { section, topic } = await params;
   const data = getTopic(section, topic);
-  return data ? { title: `${data.topic.num}. ${data.topic.title}` } : {};
+  if (!data) return {};
+  const { topic: t, section: s } = data;
+  const url = `/${s.slug}/${t.slug}`;
+  return {
+    title: t.title,
+    description: t.summary,
+    keywords: t.tags,
+    alternates: { canonical: url },
+    openGraph: { type: "article", title: t.title, description: t.summary, url, section: s.title, tags: t.tags, images: OG_IMAGES },
+    twitter: { card: "summary_large_image", title: t.title, description: t.summary, images: OG_IMAGES },
+  };
 }
 
 export default async function TopicPage({ params }: { params: Params }) {
@@ -23,8 +34,32 @@ export default async function TopicPage({ params }: { params: Params }) {
   if (!data) notFound();
   const { section: s, topic: t, body, headings, prev, next } = data;
 
+  const url = `${SITE_URL}/${s.slug}/${t.slug}`;
+  const structured = [
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      headline: t.title,
+      description: t.summary,
+      url,
+      keywords: t.tags.join(", "),
+      articleSection: s.title,
+      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: s.title, item: `${SITE_URL}/${s.slug}` },
+        { "@type": "ListItem", position: 3, name: t.title, item: url },
+      ],
+    },
+  ];
+
   return (
     <article className="page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(structured)} />
       {headings.length > 0 && (
         <details className="otp">
           <summary>On this page</summary>
