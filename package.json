@@ -29,5 +29,12 @@
     "eslint-config-next": "16.4.5",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "description": "300+ React interview questions answered in plain English with code",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ashukr321/react-interview-handbook.git"
+  },
+  "homepage": "https://react-interview-handbook.vercel.app"
 }
