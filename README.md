@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://react-interview-handbook.vercel.app">
-    <img src=".github/assets/banner.svg" alt="React Interview Handbook: 304 React interview questions answered across 29 sections" width="100%">
+    <img src=".github/assets/banner.svg" alt="React Interview Handbook: 310 React interview questions answered across 29 sections" width="100%">
   </a>
 </p>
 
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/questions-304-61dafb" alt="304 questions">
+  <img src="https://img.shields.io/badge/questions-310-61dafb" alt="310 questions">
   <img src="https://img.shields.io/badge/sections-29-61dafb" alt="29 sections">
   <img src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs" alt="Next.js 16">
   <img src="https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black" alt="React 19">
@@ -58,11 +58,11 @@ Scenario questions ("Your app is slow after a release, what do you do?") follow 
 
 | # | Section | Questions |
 |---|---|---:|
-| 01 | [React Fundamentals](content/01-react-fundamentals) | 30 |
+| 01 | [React Fundamentals](content/01-react-fundamentals) | 32 |
 | 02 | [State & Props](content/02-state-and-props) | 9 |
-| 03 | [Component Types & Patterns](content/03-component-types-and-patterns) | 10 |
+| 03 | [Component Types & Patterns](content/03-component-types-and-patterns) | 12 |
 | 04 | [Events](content/04-events) | 17 |
-| 05 | [React Lifecycle & Hooks](content/05-lifecycle-and-hooks) | 11 |
+| 05 | [React Lifecycle & Hooks](content/05-lifecycle-and-hooks) | 13 |
 | 06 | [State Management](content/06-state-management) | 15 |
 | 07 | [Internals: Fiber & Reconciliation](content/07-fiber-and-reconciliation) | 15 |
 | 08 | [Internals: Virtual DOM vs Real DOM](content/08-virtual-dom-vs-real-dom) | 10 |
