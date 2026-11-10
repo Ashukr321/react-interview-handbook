@@ -34,7 +34,8 @@ A Fragment exists only in the React tree. When React commits to the DOM, the chi
 | --- | --- | --- |
 | Import needed | No | Yes (`import { Fragment } from "react"`) |
 | Accepts `key` | No | Yes |
-| Other props | None | None (only `key`) |
+| Accepts `ref` (React 19.3+) | No | Yes |
+| Other props | None | None |
 
 ## Example
 
@@ -69,7 +70,7 @@ function Glossary({ items }) {
 ## Common mistakes
 
 - Using `<>` inside `.map()` and getting the "each child should have a unique key" warning. The short syntax cannot hold a `key`; switch to `<Fragment key={...}>`.
-- Trying to put `className`, `style` or an event handler on a Fragment. There is no DOM node, so there is nothing to style or attach to. Use a real element if you need one.
+- Trying to put `className`, `style` or an `onClick` prop on a Fragment. There is no DOM node, so there is nothing to style or attach to. Use a real element if you need one.
 - Wrapping a single child in a Fragment. It adds noise and does nothing.
 - Expecting a Fragment to help with performance on its own. It saves a DOM node, but it does not stop re-renders.
 
@@ -77,11 +78,11 @@ function Glossary({ items }) {
 
 - **Does a Fragment appear in the Fiber tree?** Yes. React creates a Fiber for a keyed Fragment so it can reconcile it, but no host (DOM) node is created.
 - **Is returning an array the same as a Fragment?** Almost. `return [<li key="a" />, <li key="b" />]` works, but every item needs a key, and the Fragment syntax is easier to read.
-- **Can I give a Fragment a ref?** Not in stable React. There is no DOM node to point to; put the ref on a real element instead.
+- **Can I give a Fragment a ref?** Yes, since React 19.3: `<Fragment ref={ref}>` gives a `FragmentInstance` that can add listeners, focus and observe the Fragment's children as a group. On older versions, put the ref on a real element. See "Fragment refs" in the Latest React Features section.
 
 ## Quick recap
 
 - Fragments group children without adding a DOM node.
 - `<>...</>` is the short form; `<Fragment>` is needed for a `key`.
 - They keep HTML valid (`table`, `ul`, `dl`) and flex/grid layouts intact.
-- No props other than `key`, so no styling and no events.
+- No props other than `key` (and `ref` since React 19.3), so no styling and no inline event handlers.

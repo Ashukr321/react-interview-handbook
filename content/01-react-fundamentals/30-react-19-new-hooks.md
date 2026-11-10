@@ -6,7 +6,7 @@ difficulty: "medium"
 
 ## Short answer
 
-React 19 introduced four new hooks/APIs centred on **Actions** and async data: `use` (read a promise or context during render, even conditionally), `useActionState` (manage the result and pending state of an action), `useFormStatus` (from `react-dom`, read the pending status of the parent `<form>`), and `useOptimistic` (show an optimistic value while an async update is in flight). React 19.2 later added `useEffectEvent` for non-reactive logic inside effects.
+React 19 introduced four new hooks/APIs centred on **Actions** and async data: `use` (read a promise or context during render, even conditionally), `useActionState` (manage the result and pending state of an action), `useFormStatus` (from `react-dom`, read the pending status of the parent `<form>`), and `useOptimistic` (show an optimistic value while an async update is in flight). React 19.2 later added `useEffectEvent` for non-reactive logic inside effects. Each of these has a full page in the "Latest React Features" section.
 
 ## Explanation
 

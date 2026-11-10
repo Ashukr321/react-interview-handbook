@@ -6,7 +6,7 @@ difficulty: "medium"
 
 ## Short answer
 
-The current major line is **React 19** (stable since December 2024, with 19.1 and 19.2 following in 2025). Its headline features are **Actions** and the hooks around them (`useActionState`, `useFormStatus`, `useOptimistic`), the **`use`** API, **Server Components and Server Actions** as stable features, **`ref` as a prop**, and built-in support for document metadata and stylesheets. React 19.2 added **`<Activity>`** and **`useEffectEvent`**, and the **React Compiler** reached 1.0 for automatic memoization. Check react.dev/blog for anything released after this was written.
+The current major line is **React 19** (stable since December 2024, with 19.1 and 19.2 following in 2025). Its headline features are **Actions** and the hooks around them (`useActionState`, `useFormStatus`, `useOptimistic`), the **`use`** API, **Server Components and Server Actions** as stable features, **`ref` as a prop**, and built-in support for document metadata and stylesheets. React 19.2 added **`<Activity>`** and **`useEffectEvent`**, and the **React Compiler** reached 1.0 for automatic memoization. React 19.3 (September 2026) added **`<ViewTransition>`**, **Fragment refs**, **`browser()`** and **Trusted Types** support. The "Latest React Features" section has a full page for each of these.
 
 ## Explanation
 

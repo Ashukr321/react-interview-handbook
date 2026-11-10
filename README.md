@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://react-interview-handbook.vercel.app">
-    <img src=".github/assets/banner.svg" alt="React Interview Handbook: 310 React interview questions answered across 29 sections" width="100%">
+    <img src=".github/assets/banner.svg" alt="React Interview Handbook: 327 React interview questions answered across 30 sections" width="100%">
   </a>
 </p>
 
@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/questions-310-61dafb" alt="310 questions">
-  <img src="https://img.shields.io/badge/sections-29-61dafb" alt="29 sections">
+  <img src="https://img.shields.io/badge/questions-327-61dafb" alt="327 questions">
+  <img src="https://img.shields.io/badge/sections-30-61dafb" alt="30 sections">
   <img src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs" alt="Next.js 16">
   <img src="https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black" alt="React 19">
   <img src="https://img.shields.io/badge/PWA-ready-5a0fc8?logo=pwa" alt="PWA ready">
@@ -79,6 +79,7 @@ Scenario questions ("Your app is slow after a release, what do you do?") follow 
 | 19 | [SPA, Architecture & System Design](content/19-spa-architecture-system-design) | 12 |
 | 20 | [SPA Behavior & Browser Mechanics](content/20-spa-behavior-browser-mechanics) | 8 |
 | 21 | [Advanced Async & Practical Edge Cases](content/21-advanced-async-edge-cases) | 3 |
+| 30 | [Latest React Features (React 19 to 19.3)](content/30-latest-react-features) | 17 |
 
 ### Part 2: Scenario-Based
 
