@@ -134,10 +134,16 @@ kbd {
   align-items: center;
 }
 .menu-btn {
-  display: none;
   cursor: pointer;
   font-size: 1.3rem;
   padding: 0.25rem 0.5rem;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+}
+.menu-btn:hover {
+  background: var(--bg-soft);
 }
 .nav-toggle {
   display: none;
@@ -240,6 +246,20 @@ kbd {
 .shell {
   display: grid;
   grid-template-columns: 290px minmax(0, 1fr);
+  transition: grid-template-columns 0.3s ease;
+}
+/* Desktop collapse (Ctrl+B / Shift+/ / ☰): the nav keeps a fixed width so it doesn't reflow while the column shrinks. */
+.sidebar-nav {
+  width: calc(290px - 1.5rem);
+}
+.sidebar-closed .shell {
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+.sidebar {
+  transition: visibility 0.3s;
+}
+.sidebar-closed .sidebar {
+  visibility: hidden;
 }
 .sidebar {
   position: sticky;
@@ -316,9 +336,26 @@ kbd {
 .chev.open {
   transform: rotate(90deg);
 }
+.nav-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.3s ease,
+    opacity 0.3s ease,
+    margin 0.3s ease;
+}
+.nav-collapse.open {
+  margin: 0.15rem 0 0.5rem;
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.nav-collapse > ul {
+  overflow: hidden;
+}
 .nav-topics {
   list-style: none;
-  margin: 0.15rem 0 0.5rem 0.6rem;
+  margin: 0 0 0 0.6rem;
   padding: 0;
 }
 .nav-topics a {
@@ -815,13 +852,16 @@ kbd {
 
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
-  .shell {
+  .shell,
+  .sidebar-closed .shell {
     grid-template-columns: 1fr;
   }
-  .menu-btn {
-    display: block;
+  .sidebar-nav {
+    width: auto;
   }
-  .sidebar {
+  .sidebar,
+  .sidebar-closed .sidebar {
+    visibility: visible;
     position: fixed;
     left: 0;
     top: 60px;

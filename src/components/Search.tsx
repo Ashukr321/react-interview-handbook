@@ -1,8 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { SearchItem } from "@/lib/content";
+
+const noopSubscribe = () => () => {};
 
 export default function Search({ items }: { items: SearchItem[] }) {
   const router = useRouter();
@@ -11,13 +13,22 @@ export default function Search({ items }: { items: SearchItem[] }) {
   const [focused, setFocused] = useState(false);
   const [cursor, setCursor] = useState(0);
 
-  // "/" focuses search, like the reference site.
+  const shortcut = useSyncExternalStore(
+    noopSubscribe,
+    () => (/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘ K" : "Ctrl K"),
+    () => "Ctrl K",
+  );
+
+  // Ctrl/⌘+K (Shift allowed) or "/" focuses search; e.code so it works on any layout.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName;
-      if (e.key === "/" && tag !== "INPUT" && tag !== "TEXTAREA") {
+      const typing = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+      const mod = e.ctrlKey || e.metaKey;
+      if ((mod && e.code === "KeyK") || (!mod && !e.shiftKey && e.code === "Slash" && !typing)) {
         e.preventDefault();
         inputRef.current?.focus();
+        inputRef.current?.select();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -67,7 +78,7 @@ export default function Search({ items }: { items: SearchItem[] }) {
           e.preventDefault();
         }}
       />
-      <kbd>/</kbd>
+      <kbd>{shortcut}</kbd>
       {focused && query && (
         <ul className="search-results" role="listbox">
           {results.length === 0 && <li className="search-empty">No matches</li>}

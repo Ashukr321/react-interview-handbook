@@ -1,34 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type Mode = "auto" | "light" | "dark";
 
-/** Runs before paint (inlined in <head>) so the saved theme never flashes. */
+/** Runs before paint (next/script beforeInteractive) so the saved theme never flashes. */
 export const themeInitScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
 
-export default function ThemeToggle() {
-  const [mode, setMode] = useState<Mode>("auto");
+// The init script already put the saved theme on <html>, so that attribute is the source of truth.
+const subscribe = (cb: () => void) => {
+  window.addEventListener("themechange", cb);
+  return () => window.removeEventListener("themechange", cb);
+};
+const getMode = () => (document.documentElement.dataset.theme as Mode | undefined) ?? "auto";
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("theme");
-      if (saved === "light" || saved === "dark") setMode(saved);
-    } catch {}
-  }, []);
+export default function ThemeToggle() {
+  const mode = useSyncExternalStore(subscribe, getMode, () => "auto" as Mode);
 
   const change = (next: Mode) => {
-    setMode(next);
     const root = document.documentElement;
+    if (next === "auto") delete root.dataset.theme;
+    else root.dataset.theme = next;
     try {
-      if (next === "auto") {
-        delete root.dataset.theme;
-        localStorage.removeItem("theme");
-      } else {
-        root.dataset.theme = next;
-        localStorage.setItem("theme", next);
-      }
+      if (next === "auto") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", next);
     } catch {}
+    window.dispatchEvent(new Event("themechange"));
   };
 
   return (

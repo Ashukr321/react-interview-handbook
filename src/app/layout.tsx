@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import Sidebar from "@/components/Sidebar";
 import Search from "@/components/Search";
+import SidebarToggle from "@/components/SidebarToggle";
 import PwaRegister from "@/components/PwaRegister";
 import ThemeToggle, { themeInitScript } from "@/components/ThemeToggle";
 import { getSearchIndex, getSections } from "@/lib/content";
@@ -58,21 +60,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <input type="checkbox" id="nav-toggle" className="nav-toggle" aria-hidden tabIndex={-1} />
         <header className="topbar">
-          <label htmlFor="nav-toggle" className="menu-btn" aria-label="Toggle navigation">
-            ☰
-          </label>
+          <SidebarToggle />
           <Link href="/" className="logo">
             React<span>Handbook</span>
           </Link>
           <div className="topbar-right">
-            <Search items={getSearchIndex()} />
             <ThemeToggle />
+            <Search items={getSearchIndex()} />
           </div>
         </header>
         <div className="shell">

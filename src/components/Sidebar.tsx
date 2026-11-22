@@ -15,12 +15,8 @@ type NavSection = {
 export default function Sidebar({ sections }: { sections: NavSection[] }) {
   const pathname = usePathname();
   const activeSection = pathname.split("/")[1] ?? "";
-  const [open, setOpen] = useState<Set<string>>(() => new Set([activeSection]));
-
-  // Auto-expand the section you navigate into (search, prev/next links).
-  useEffect(() => {
-    if (activeSection) setOpen((prev) => (prev.has(activeSection) ? prev : new Set(prev).add(activeSection)));
-  }, [activeSection]);
+  // Only explicit clicks are stored; untouched sections follow the current page (auto-open on navigate).
+  const [toggled, setToggled] = useState<Record<string, boolean>>({});
 
   // Close the mobile drawer (CSS checkbox in layout) after navigating.
   useEffect(() => {
@@ -28,13 +24,7 @@ export default function Sidebar({ sections }: { sections: NavSection[] }) {
     if (toggle) toggle.checked = false;
   }, [pathname]);
 
-  const toggle = (slug: string) =>
-    setOpen((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
-      return next;
-    });
+  const toggle = (slug: string, isOpen: boolean) => setToggled((prev) => ({ ...prev, [slug]: !isOpen }));
 
   const parts = [...new Set(sections.map((s) => s.part))];
 
@@ -49,15 +39,15 @@ export default function Sidebar({ sections }: { sections: NavSection[] }) {
           {sections
             .filter((s) => s.part === part)
             .map((s) => {
-              const isOpen = open.has(s.slug);
               const isActive = activeSection === s.slug;
+              const isOpen = toggled[s.slug] ?? isActive;
               return (
                 <div key={s.slug} className="nav-section">
                   <button
                     type="button"
                     className={`nav-section-btn ${isActive ? "active" : ""}`}
                     aria-expanded={isOpen}
-                    onClick={() => toggle(s.slug)}
+                    onClick={() => toggle(s.slug, isOpen)}
                   >
                     <span>
                       <span className="nav-level">
@@ -69,7 +59,7 @@ export default function Sidebar({ sections }: { sections: NavSection[] }) {
                       ›
                     </span>
                   </button>
-                  {isOpen && (
+                  <div className={`nav-collapse ${isOpen ? "open" : ""}`} inert={!isOpen}>
                     <ul className="nav-topics">
                       <li>
                         <Link href={`/${s.slug}`} className={pathname === `/${s.slug}` ? "active" : ""}>
@@ -88,7 +78,7 @@ export default function Sidebar({ sections }: { sections: NavSection[] }) {
                         );
                       })}
                     </ul>
-                  )}
+                  </div>
                 </div>
               );
             })}
