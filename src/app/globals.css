@@ -221,25 +221,18 @@ kbd {
 }
 
 .theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg-soft);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-.theme-toggle select {
-  background: transparent;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
   border: 0;
+  border-radius: 8px;
+  background: none;
   color: var(--text);
-  font-weight: 600;
   cursor: pointer;
 }
-.theme-toggle option {
-  background: var(--panel);
+.theme-toggle:hover {
+  background: var(--bg-soft);
 }
 
 /* ---------- Shell ---------- */
@@ -922,11 +915,7 @@ kbd {
   .search {
     width: 100px;
   }
-  .theme-toggle {
-    padding: 0.3rem 0.4rem;
-  }
-  .search kbd,
-  .theme-toggle span {
+  .search kbd {
     display: none;
   }
   .pager {

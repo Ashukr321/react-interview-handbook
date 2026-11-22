@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }));
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <body>
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
@@ -71,8 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             React<span>Handbook</span>
           </Link>
           <div className="topbar-right">
-            <ThemeToggle />
             <Search items={getSearchIndex()} />
+            <ThemeToggle />
           </div>
         </header>
         <div className="shell">
